@@ -1,0 +1,35 @@
+﻿@page "/CropStages/CropStageSummary"
+@layout Karpine.Fpo.Blazor.Pages.Shared.SFLayOut
+
+<h3>Farm Produce Tracking By Village</h3>
+
+@inject ICropAppService CropAppService
+@using Karpine.Fpo.Crops
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.Kanban
+@using Syncfusion.Blazor
+
+<div class="col-lg-12 control-section">
+    <SfKanban TValue="CropDto" KeyField="LocationType" AllowDragAndDrop="false" DataSource="@cardData" @ref="CropKanban">
+        <KanbanColumns>
+            @foreach (ColumnModel item in columnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField"/>
+            }
+        </KanbanColumns>
+           
+        <KanbanCardSettings HeaderField="CropType" ContentField="Acreage">
+            
+        </KanbanCardSettings>
+           <KanbanSwimlaneSettings KeyField="Village"></KanbanSwimlaneSettings>
+    </SfKanban>
+</div>
+@code{
+    private List<ColumnModel> columnData = new List<ColumnModel>() 
+    {
+        new ColumnModel(){ HeaderText= "Farm", KeyField= new List<string>() { "Farm" } },
+        new ColumnModel(){ HeaderText= "FPO", KeyField= new List<string>() { "FPO" } },
+        new ColumnModel(){ HeaderText= "Logistics", KeyField= new List<string>() { "Logistics" } },
+        new ColumnModel(){ HeaderText= "Store", KeyField=new List<string>() { "Store" } }
+    };
+}

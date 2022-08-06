@@ -1,0 +1,46 @@
+﻿@page "/Trails/TrailSummary"
+@layout Karpine.Fpo.Blazor.Pages.Shared.SFLayOut
+    
+@using Karpine.Fpo.Crops
+@using Syncfusion.Blazor.Grids;
+@using Syncfusion.Blazor.Buttons;
+@inject ICropAppService CropAppService
+@inject NavigationManager UriHelper
+
+
+
+<h3>Supply Chain View</h3>
+
+  <SfGrid @ref="InventoriesGrid" ClipMode="ClipMode.EllipsisWithTooltip" OnActionComplete="Complete" GridLines="GridLine.Both"
+    AllowExcelExport="true"  AllowPdfExport="true" ShowColumnChooser="true" Toolbar="ToolbaritemsInventory"
+           DataSource="@InventoryList" AllowSorting="true" AllowFiltering="true" AllowPaging="true" 
+           Width="100%" Height="100%" >
+           <GridEvents OnToolbarClick="ToolbarClickHandler" TValue="CropDto"></GridEvents>
+       <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Excel"></GridFilterSettings>
+        <GridSelectionSettings  
+        EnableToggle="true"  PersistSelection="true" ></GridSelectionSettings>
+        <GridPageSettings PageSizes="true" PageSize="10"></GridPageSettings>
+        <GridColumns>
+            <GridColumn Field="@nameof( CropDto.FarmerName )" Width="150" HeaderText="Farmer" />
+            <GridColumn Field="@nameof( CropDto.Village )" HeaderText="Village" Width="100" />
+            <GridColumn Field="@nameof( CropDto.Acreage )" HeaderText="Tonnes" Width="50" />
+            <GridColumn Field="@nameof( CropDto.SurveyNo )" HeaderText="Sy.No" Width="100"/>
+            <GridColumn Field="@nameof( CropDto.Location )" HeaderText="Location" Width="100" />
+            <GridColumn Field="@nameof( CropDto.LocationType )" HeaderText="Type" Width="125" />
+           
+ 
+                <!--
+                <GridColumn  Width="50">
+                <Template>
+                     <SfButton IconCss="e-btn-sb-icons fas fa-times" CssClass="e-flat" 
+                     OnClick="@(()=>DeleteInventoryAsync(context as DigitalTwinDto))"></SfButton>
+                </Template>
+                  </GridColumn>-->
+                <GridColumn  Width="60">
+                <Template>
+                     <SfButton IconCss="e-btn-sb-icons fas fa-eye" CssClass="e-flat" 
+                     OnClick="@(()=>ViewInventoryAsync(context as CropDto))"></SfButton>
+                </Template>
+            </GridColumn>
+        </GridColumns>
+    </SfGrid>

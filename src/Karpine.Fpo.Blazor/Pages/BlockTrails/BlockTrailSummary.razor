@@ -1,0 +1,229 @@
+﻿@page "/InventoryTrailSummary/{LocationId?}"
+@layout Karpine.Fpo.Blazor.Pages.Shared.SFLayOut
+
+@inject NavigationManager UriHelper
+@using Syncfusion.Blazor.Buttons;
+@using Syncfusion.Blazor.Grids;
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Inputs;
+@using Syncfusion.Blazor.Calendars;
+@using Karpine.Fpo.Crops
+@inject ICropAppService CropAppService
+
+
+<h3>Inventory Trail Summary</h3>
+ 
+    <SfGrid @ref="InventoryTrailsGrid" ClipMode="ClipMode.EllipsisWithTooltip" OnActionComplete="Complete" GridLines="GridLine.Both"
+    AllowExcelExport="true"  AllowPdfExport="true" ShowColumnChooser="true"
+           DataSource="@InventoryTrailList" AllowSorting="true" AllowFiltering="true" AllowPaging="true" 
+           Width="100%" Height="100%" Toolbar="ToolbaritemsInventory">
+        <GridEvents OnToolbarClick="ToolbarClickHandler" TValue="CropDto"></GridEvents>
+       <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Excel"></GridFilterSettings>
+        <GridSelectionSettings  
+        EnableToggle="true"  PersistSelection="true" ></GridSelectionSettings>
+        <GridPageSettings PageSizes="true" PageSize="10"></GridPageSettings>
+       
+    <GridColumns>
+           <GridColumn Field="@nameof( CropDto.FarmerName )" Width="150" HeaderText="Farmer" />
+            <GridColumn Field="@nameof( CropDto.Lattitude )" HeaderText="Latitude" Width="100"/>
+            <GridColumn Field="@nameof( CropDto.Longitude )" HeaderText="Longitude" Width="100"/>
+            <GridColumn Field="@nameof( CropDto.Location )" HeaderText="Location" Width="100" />
+            <GridColumn Field="@nameof( CropDto.LocationType )" HeaderText="Type" Width="125" />
+             <GridColumn Field="@nameof( CropDto.TestDate )" HeaderText="Date" Width="150" />
+            <GridColumn  Width="50">
+                <Template>
+                     <SfButton IconCss="e-btn-sb-icons fas fa-eye" CssClass="e-flat" 
+                     OnClick="@(()=>ViewInventoryTrailAsync(context as CropDto))"></SfButton>
+                </Template>
+            </GridColumn>
+         </GridColumns>
+    </SfGrid>
+
+    <SfDialog @bind-Visible="@NewDialogOpen" Width="800px" ShowCloseIcon="true" CloseOnEscape="true" IsModal="true" MinHeight="600px">
+        <DialogTemplates>
+            <Header><label>Audit Trail Details</label></Header>
+            <Content>
+               
+   
+<SfTab CssClass="e-fill">
+     <TabItems>
+        <TabItem>
+            <HeaderTemplate>Details</HeaderTemplate>
+            <ContentTemplate>
+                <div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+               <b>Farmer Name:</b>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+               @NewInventoryTrailDto.FarmerName
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+               <b>Village:</b>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+               @NewInventoryTrailDto.Village
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+              <b>Acreage:</b>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+               @NewInventoryTrailDto.Acreage
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+              <b>Survey No:</b>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+               @NewInventoryTrailDto.SurveyNo
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+               <b>Soil Type:</b>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+              @NewInventoryTrailDto.SoilType
+            </div>
+        </div>
+               <div class="row">
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+               <b>Crop Type:</b>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+               @NewInventoryTrailDto.CropType
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+               <b>Stage:</b>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+               @NewInventoryTrailDto.Stage
+            </div>
+        </div>
+         <div class="row">
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+               <b>Ph:</b>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+               @NewInventoryTrailDto.Ph
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+               <b>Nitrogen:</b>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+               @NewInventoryTrailDto.Nitrogen
+            </div>
+        </div>
+         <div class="row">
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+               <b>Phosphurus:</b>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+               @NewInventoryTrailDto.Phosphurus
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+               <b>Pottasium:</b>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+               @NewInventoryTrailDto.Pottasium
+            </div>
+        </div>
+         <div class="row">
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+               <b>Magnesium:</b>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+               @NewInventoryTrailDto.Magnesium
+            </div>
+        </div>
+                                                                              <div class="row">
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+               <b>TimeStamp:</b>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+              @NewInventoryTrailDto.TestDate
+            </div>
+        </div>
+        </div>
+        </div>
+                </ContentTemplate>
+                </TabItem>
+                <TabItem>
+       <HeaderTemplate>Blockchain Tx</HeaderTemplate>
+            <ContentTemplate>
+                  <div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+               <b>Gas:</b>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+               @MsgTx.Gas
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+               <b>Script:</b>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12" style="display:inline-block">
+               @MsgTx.Script
+            </div>
+         </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+               <b>Script Analysis:</b>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+               @MsgTx.ScriptAnalysis[0]
+            </div>
+           <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+               @MsgTx.ScriptAnalysis[1]
+            </div>
+           <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+              @MsgTx.ScriptAnalysis[2]
+            </div>
+           <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+               @MsgTx.ScriptAnalysis[3]
+            </div>
+           <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+               @MsgTx.ScriptAnalysis[4]
+            </div>
+        </div>
+        </div>
+        </div>
+                </ContentTemplate>
+                </TabItem>
+    </TabItems>
+</SfTab>
+
+     
+            </Content>
+        </DialogTemplates>
+        <DialogPositionData X="center" Y="top"></DialogPositionData>
+        <DialogAnimationSettings Effect="DialogEffect.Zoom"></DialogAnimationSettings>
+     <DialogButtons>
+            <DialogButton Content="Close" IsPrimary="true" OnClick="@(e => { NewDialogOpen = false; })" />
+        </DialogButtons>
+    </SfDialog>
+
+     
+  
+    <style>
+    .e-content .e-item {
+        font-size: 12px;
+        padding: 10px;
+        text-align: justify;
+    }
+</style>

@@ -1,0 +1,64 @@
+﻿@namespace Karpine.Fpo.Blazor.Pages.Shared
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.SplitButtons
+@using Volo.Abp.Users
+@using Volo.Abp.MultiTenancy
+@using Microsoft.Extensions.Localization
+@using global::Localization.Resources.AbpUi
+@inject ICurrentUser CurrentUser
+@inject ICurrentTenant CurrentTenant
+@inject IJSRuntime JsRuntime
+@inject NavigationManager Navigation
+@inject NavigationManager UrlHelper;
+@inject IStringLocalizer<AbpUiResource> L
+<AuthorizeView>
+    <Authorized>
+         <SfDropDownButton IconCss="fas fa-user" CssClass="e-caret-hide e-grid-splitbtn">
+                        <DropDownMenuItems>
+                              @if (Menu != null)
+                {
+                    @foreach (var menuItem in Menu.Items)
+                    {
+                         <DropDownMenuItem Text=@menuItem.DisplayName Id="@menuItem.Url?.TrimStart('/', '~')"></DropDownMenuItem>
+                        
+                    }
+                }
+                        </DropDownMenuItems>
+                        <DropDownButtonEvents    ItemSelected="ItemSelected"></DropDownButtonEvents >
+                    </SfDropDownButton>
+      <!--  <Dropdown>
+            <DropdownToggle Color="Blazorise.Color.Light">
+               
+                @if (CurrentTenant.Name != null)
+                {
+                    <span><i>@CurrentTenant.Name</i>\@CurrentUser.UserName</span>
+                }
+                else
+                {
+                    <span>@CurrentUser.UserName</span>
+                }
+             
+            </DropdownToggle>
+            <DropdownMenu>
+                @if (Menu != null)
+                {
+                    @foreach (var menuItem in Menu.Items)
+                    {
+                        <a class="dropdown-item" href="@menuItem.Url?.TrimStart('/', '~')" target="@menuItem.Target">@menuItem.DisplayName</a>
+                    }
+                }
+            </DropdownMenu>
+        </Dropdown>-->
+    </Authorized>
+    <NotAuthorized>
+        <a class="nav-link" href="Account/Login">@L["Login"]</a>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code
+{
+      private void ItemSelected(MenuEventArgs args)
+    {
+            UrlHelper.NavigateTo(args.Item.Id, true); 
+    }
+}

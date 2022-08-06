@@ -1,0 +1,75 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
+    <PreserveCompilationReferences>true</PreserveCompilationReferences>
+    <UserSecretsId>Karpine.Fpo-4681b4fd-151f-4221-84a4-929d86723e4c</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Blazorise.Bootstrap5" Version="1.0.4" />
+    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.0.4" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
+    <PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
+    <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
+    <PackageReference Include="Syncfusion.Blazor.Buttons" Version="20.2.0.40" />
+    <PackageReference Include="Syncfusion.Blazor.Calendars" Version="20.2.0.40" />
+    <PackageReference Include="Syncfusion.Blazor.Core" Version="20.2.0.40" />
+    <PackageReference Include="Syncfusion.Blazor.DropDowns" Version="20.2.0.40" />
+    <PackageReference Include="Syncfusion.Blazor.Grid" Version="20.2.0.40" />
+    <PackageReference Include="Syncfusion.Blazor.Inputs" Version="20.2.0.40" />
+    <PackageReference Include="Syncfusion.Blazor.Kanban" Version="20.2.0.40" />
+    <PackageReference Include="Syncfusion.Blazor.Navigations" Version="20.2.0.40" />
+    <PackageReference Include="Syncfusion.Blazor.Popups" Version="20.2.0.40" />
+    <PackageReference Include="Syncfusion.Blazor.SplitButtons" Version="20.2.0.40" />
+    <PackageReference Include="Syncfusion.Blazor.Themes" Version="20.2.0.40" />
+    <PackageReference Include="Syncfusion.Blazor.TreeGrid" Version="20.2.0.40" />
+    <PackageReference Include="Syncfusion.Blazor.TreeMap" Version="20.2.0.40" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Karpine.Fpo.Application\Karpine.Fpo.Application.csproj" />
+    <ProjectReference Include="..\Karpine.Fpo.HttpApi\Karpine.Fpo.HttpApi.csproj" />
+    <ProjectReference Include="..\Karpine.Fpo.EntityFrameworkCore\Karpine.Fpo.EntityFrameworkCore.csproj" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic" Version="5.3.3" />
+    <PackageReference Include="Volo.Abp.Autofac" Version="5.3.3" />
+    <PackageReference Include="Volo.Abp.Swashbuckle" Version="5.3.3" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Authentication.JwtBearer" Version="5.3.3" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="5.3.3" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Components.Server.BasicTheme" Version="5.3.3" />
+    <PackageReference Include="Volo.Abp.Account.Web.IdentityServer" Version="5.3.3" />
+    <PackageReference Include="Volo.Abp.Identity.Blazor.Server" Version="5.3.3" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Blazor.Server" Version="5.3.3" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Blazor.Server" Version="5.3.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Logs\**" />
+    <Content Remove="Logs\**" />
+    <EmbeddedResource Remove="Logs\**" />
+    <None Remove="Logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\Shared\LanguageSwitch.razor" />
+    <None Include="Pages\Shared\LoginDisplay.razor" />
+    <None Include="Pages\Shared\NavMenu.razor" />
+    <None Include="Pages\Shared\SFLayOut.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Pages\**\*.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Pages\**\*.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

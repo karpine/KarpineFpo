@@ -1,0 +1,14 @@
+﻿@namespace Karpine.Fpo.Blazor.Pages.Shared
+@using Syncfusion.Blazor.Navigations;
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Lists
+
+@if (Menu != null)
+{
+    <SfTreeView TValue="TreeData">
+                        <TreeViewEvents TValue="TreeData" ></TreeViewEvents>
+                        <TreeViewFieldsSettings Child="Child" Id="Id"   IconCss="IcoCss" NavigateUrl="Url" 
+                        Text="Name" Selected="Selected" HasChildren="HasChild"  Expanded="Expanded" 
+                        DataSource="@LocalData"></TreeViewFieldsSettings>
+                    </SfTreeView>
+}
